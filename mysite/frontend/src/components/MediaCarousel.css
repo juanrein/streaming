@@ -1,0 +1,52 @@
+.carousel-container {
+    padding: 0 1em 1em 1em;
+    margin: 1em 0 1em 0;
+}
+
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item a {
+    display: block;
+}
+
+.carousel-header {
+    padding: 1em 0 1em 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carousel-header h2, .carousel-header a {
+    padding: 0.25em 0 0.25em 0;
+}
+
+.fav-button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background-image: url(./star.png);
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    filter: invert();
+    opacity: 0.7;
+}
+
+.fav-button:hover {
+    background-image: url(./star_filled.png);
+}
+
+#main-element .control-arrow {
+    background-color: rgb(82, 82, 82);
+    opacity: 0.7;
+    height: 80%;
+    margin: auto;
+    border-radius: 10px 0 0 10px;
+}
+
+#main-element .control-arrow:hover {
+    opacity: 1;
+}
