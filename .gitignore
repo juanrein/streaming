@@ -4,3 +4,5 @@ db.sqlite3
 __pycache__/
 datas/
 node_modules/
+secret.json
+media/
