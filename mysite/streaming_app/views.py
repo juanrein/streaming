@@ -25,8 +25,8 @@ def content(request):
             "id": category.id,
             "items": items
         })
-
-    return JsonResponse({"sections": data})
+    res = JsonResponse({"sections": data})
+    return res
 
 def category(request, category_id):
     """
@@ -45,4 +45,9 @@ def category(request, category_id):
         "category": c.name,
         "id": c.id,
         "items": data
+    })
+
+def media(request, media_id):
+    return JsonResponse({
+
     })

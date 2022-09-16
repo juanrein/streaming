@@ -1,6 +1,7 @@
 import {Carousel} from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import "./MediaCarousel.css"
+import { Link } from "react-router-dom";
 
 function MediaCarousel(props) {
     const handleFavButtonClick = (e, id) => {
@@ -8,22 +9,12 @@ function MediaCarousel(props) {
         props.handleFavButtonClick(id);
     }
 
-    const handleImageClick = (e, id) => {
-        e.preventDefault();
-        props.handleImageClick(id);
-    }
-
-    const handleShowAll = (e) => {
-        e.preventDefault();
-        props.handleShowAll(props.carouselId);
-    }
-
     let carousel_items = props.carouselData.map((c) => {
         return (
             <div key = {c.id} className="carousel-item">
-                <a href="/" onClick={e => handleImageClick(e, c.id)}>
+                <Link to={`media/${c.id}`}>
                     <img src={c.thumbnailUrl} />
-                </a>
+                </Link>
                 <a 
                     href="/"
                     className="fav-button"
@@ -38,7 +29,7 @@ function MediaCarousel(props) {
         <div className="carousel-container">
             <div className="carousel-header">
                 <h2>{props.headerText}</h2>
-                <a href="" onClick={handleShowAll}>See all</a>
+                <Link to={`category/${props.carouselId}`}>See all</Link>
             </div>
             <Carousel
                 showStatus={false}
