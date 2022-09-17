@@ -10,25 +10,30 @@ import ErrorPage from "./routes/ErrorPage";
 import Category, { loader as categoryLoader } from './routes/Category';
 import Media, {loader as mediaLoader} from './routes/Media';
 import Watchlist, {loader as watchlistLoader} from './routes/Watchlist';
-
+import Episode, {loader as episodeLoader} from './routes/Episode';
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/streaming_app/",
     element: <App />,
     errorElement: <ErrorPage />
   },
   {
-    path: "/category/:category_id",
+    path: "/streaming_app/category/:category_id",
     element: <Category />,
     loader: categoryLoader
   },
   {
-    path: "/media/:media_id",
+    path: "/streaming_app/media/:media_id",
     element: <Media />,
     loader: mediaLoader
   },
   {
-    path: "/watchlist",
+    path: "/streaming_app/episode/:episode_id",
+    element: <Episode />,
+    loader: episodeLoader
+  },
+  {
+    path: "/streaming_app/watchlist/",
     element: <Watchlist />,
     loader: watchlistLoader
   }

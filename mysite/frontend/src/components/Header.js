@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { postLogin, postRegister } from "../api_requests";
 import "./Header.css";
+import { postLogout } from "../api_requests";
 
 function Header(props) {
     let [searchText, setSearchText] = useState("");
@@ -20,17 +22,21 @@ function Header(props) {
         e.preventDefault();
         console.log("handle login");
         setIsLoginOpen(true);
+        setIsRegisterOpen(false);
     }
 
     const handleRegister = (e) => {
         e.preventDefault();
         console.log("handle Register");
         setIsRegisterOpen(true);
+        setIsLoginOpen(false);
     }
 
     const handleLogout = (e) => {
         e.preventDefault();
         console.log("handle logout");
+        let res = postLogout();
+        console.log(res);
         setLoggedIn(false);
     }
 
@@ -39,50 +45,32 @@ function Header(props) {
      */
     const handleLoginFormSubmit = (e) => {
         e.preventDefault();
-        let userData = {
-            "username": username,
-            "password": password
+        
+        let {success} = postLogin(username, password)
+        if (success) {
+            setIsLoginOpen(false);
+            setIsRegisterOpen(false);
+            setIsProfileOpen(true);
+            
         }
-        fetch("http://localhost:8000/streaming_app/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userData)
-        })
-            .then(res => res.json())
-            .then(c => {
-                console.log(c);
-                setIsLoginOpen(false);
-                setLoggedIn(true);
-            })
-            .catch(e => {
-                console.error(e)
-                setIsLoginOpen(false);
-                setLoggedIn(true)
-            });
+        else {
+            console.log("login failed");
+        }
     }
 
     const handleRegisterFormSubmit = (e) => {
         e.preventDefault();
-        let userData = {
-            "username": username,
-            "password": password
+
+        let {success} = postRegister(username, password)
+
+        if (success) {
+            setIsLoginOpen(false);
+            setIsRegisterOpen(false);
+            setIsProfileOpen(true);
         }
-        fetch("http://localhost:8000/streaming_app/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userData)
-        })
-            .then(res => res.json())
-            .then(c => {
-                console.log(c);
-                setLoggedIn(true);
-                setIsRegisterOpen(false);
-            })
-            .catch(e => console.error(e));
+        else {
+            console.log("registration failed");
+        }
     }
 
     let userElement;
@@ -105,7 +93,7 @@ function Header(props) {
     return (
         <header>
             <nav>
-                <div className="icon"><Link to="/">Streaming app</Link></div>
+                <div className="icon"><Link to="/streaming_app">Streaming app</Link></div>
                 <div className="search-bar">
                     <form onSubmit={handleSearch}>
                         <input
@@ -120,7 +108,7 @@ function Header(props) {
                 </div>
                 {userElement}
                 {isLoginOpen && (
-                    <form onSubmit={handleLoginFormSubmit}>
+                    <form id="login-form" onSubmit={handleLoginFormSubmit}>
                         <label htmlFor="username">Username</label>
                         <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
                         <label htmlFor="password">Password</label>
@@ -129,12 +117,12 @@ function Header(props) {
                     </form>
                 )}
                 {isRegisterOpen && (
-                    <form onSubmit={handleRegisterFormSubmit}>
+                    <form id="register-form" onSubmit={handleRegisterFormSubmit}>
                         <label htmlFor="username">Username</label>
                         <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
                         <label htmlFor="password">Password</label>
                         <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <input type="submit" value={"login"} />
+                        <input type="submit" value={"register"} />
                     </form>
                 )}
                 {loggedIn && !isProfileOpen && (
@@ -149,7 +137,7 @@ function Header(props) {
                         <div className="profile-icon" onClick={e => {
                             isProfileOpen(true)
                         }}></div>
-                        <Link to="/watchlist">Show watchlist</Link>
+                        <Link to="streaming_app/watchlist">Show watchlist</Link>
                     </div>
                 )}
             </nav>

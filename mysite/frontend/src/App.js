@@ -79,26 +79,6 @@ class App extends React.Component {
             });
     }
 
-    /**
-     * add clicked item to favourites
-     */
-    handleFavButtonClick = (id) => {
-        console.log("add", id, "to favourites");
-    }
-
-    /**
-     * Clicked on show in carousel, show that item
-     */
-    handleImageClick = (id) => {
-        console.log("handle", id, "show");
-    }
-
-    /**
-     * show all the shows in selected carousel
-     */
-    handleShowAll = (id) => {
-        console.log("show all in", id);
-    }
 
     render() {
         let carousels;
@@ -110,9 +90,6 @@ class App extends React.Component {
                     carouselData={sectionData.items}
                     headerText={sectionData.title}
                     carouselId={sectionData.id}
-                    handleFavButtonClick={this.handleFavButtonClick}
-                    handleImageClick={this.handleImageClick}
-                    handleShowAll={this.handleShowAll}
                 />
             ))
         }
