@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { postLogin, postRegister } from "../api_requests";
+import { postLogin, postRegister, postLogout } from "../api_requests";
 import "./Header.css";
-import { postLogout } from "../api_requests";
 
 function Header(props) {
     let [searchText, setSearchText] = useState("");
@@ -35,9 +34,12 @@ function Header(props) {
     const handleLogout = (e) => {
         e.preventDefault();
         console.log("handle logout");
-        let res = postLogout();
-        console.log(res);
-        setLoggedIn(false);
+        postLogout()
+        .then(res => {
+            console.log(res);
+            setLoggedIn(false);
+        })
+        .catch(e => console.error(e));
     }
 
     /**
@@ -46,31 +48,31 @@ function Header(props) {
     const handleLoginFormSubmit = (e) => {
         e.preventDefault();
         
-        let {success} = postLogin(username, password)
-        if (success) {
+        postLogin(username, password)
+        .then(res => {
             setIsLoginOpen(false);
             setIsRegisterOpen(false);
             setIsProfileOpen(true);
-            
-        }
-        else {
+            setLoggedIn(true);
+        })
+        .catch(e => {
             console.log("login failed");
-        }
+        })
     }
 
     const handleRegisterFormSubmit = (e) => {
         e.preventDefault();
 
-        let {success} = postRegister(username, password)
-
-        if (success) {
+        postRegister(username, password)
+        .then(res => {
             setIsLoginOpen(false);
             setIsRegisterOpen(false);
             setIsProfileOpen(true);
-        }
-        else {
+            setLoggedIn(true);
+        })
+        .catch(e => {
             console.log("registration failed");
-        }
+        })
     }
 
     let userElement;
@@ -93,7 +95,7 @@ function Header(props) {
     return (
         <header>
             <nav>
-                <div className="icon"><Link to="/streaming_app">Streaming app</Link></div>
+                <div className="icon"><Link to="/">Streaming app</Link></div>
                 <div className="search-bar">
                     <form onSubmit={handleSearch}>
                         <input
@@ -137,7 +139,7 @@ function Header(props) {
                         <div className="profile-icon" onClick={e => {
                             isProfileOpen(true)
                         }}></div>
-                        <Link to="streaming_app/watchlist">Show watchlist</Link>
+                        <Link to="/watchlist">Show watchlist</Link>
                     </div>
                 )}
             </nav>

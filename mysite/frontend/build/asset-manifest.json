@@ -1,21 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.95004c4a.css",
-    "main.js": "/static/js/main.f2903bb7.js",
-    "static/media/Forest.mp4": "/static/media/Forest.beb11389b05d03493701.mp4",
+    "main.css": "/static/css/main.698ce87c.css",
+    "main.js": "/static/js/main.cd3512f7.js",
     "static/media/Montserrat-VariableFont_wght.ttf": "/static/media/Montserrat-VariableFont_wght.3faa3eef13649db02044.ttf",
-    "static/media/media0.jpg": "/static/media/media0.0b58cb6af7acadb5e434.jpg",
-    "static/media/media2.jpg": "/static/media/media2.9bcfb49589afa02bc476.jpg",
-    "static/media/media1.jpg": "/static/media/media1.ed0dddd761d606e73cce.jpg",
-    "static/media/forrest_gump.jpg": "/static/media/forrest_gump.9244f024c276e9f43e13.jpg",
-    "static/media/desperado.jpg": "/static/media/desperado.347fdb7bd601de3ed2b9.jpg",
-    "static/media/kunniottomat_paskiaiset.jpg": "/static/media/kunniottomat_paskiaiset.e41745a3446f1bf66dc3.jpg",
     "index.html": "/index.html",
-    "main.95004c4a.css.map": "/static/css/main.95004c4a.css.map",
-    "main.f2903bb7.js.map": "/static/js/main.f2903bb7.js.map"
+    "main.698ce87c.css.map": "/static/css/main.698ce87c.css.map",
+    "main.cd3512f7.js.map": "/static/js/main.cd3512f7.js.map"
   },
   "entrypoints": [
-    "static/css/main.95004c4a.css",
-    "static/js/main.f2903bb7.js"
+    "static/css/main.698ce87c.css",
+    "static/js/main.cd3512f7.js"
   ]
 }

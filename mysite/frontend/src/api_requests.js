@@ -1,10 +1,3 @@
-import img0 from "./temp/desperado.jpg";
-import img1 from "./temp/forrest_gump.jpg";
-import img2 from "./temp/kunniottomat_paskiaiset.jpg";
-import img3 from "./temp/media0.jpg";
-import img4 from "./temp/media1.jpg";
-import img5 from "./temp/media2.jpg";
-import forest from "./temp/Forest.mp4";
 
 /**
  * https://docs.djangoproject.com/en/4.1/howto/csrf/
@@ -25,167 +18,92 @@ function getCookie(name) {
     return cookieValue;
 }
 
-export async function getCategoryData(id) {
+/**
+ * sends post request with csrf token 
+ * returns the json response
+ */
+async function postRequest(url, data) {
+    const csrftoken = getCookie('csrftoken');
+
+    const formData = new FormData();
+    for (let [name, value] of Object.entries(data)) {
+        formData.append(name, value);
+    }
     try {
-        const response = await fetch(`http://localhost:8000/streaming_app/category/${id}`);
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            body: formData
+        });
         if (response.ok && response.status === 200) {
-            let categoryData = await response.json();
-            return categoryData;
+            return await response.json();
+        }
+        else {
+            return Promise.reject("failed to fetch " + url);
         }
     } catch (error) {
-        
+        return Promise.reject("failed to fetch " + url);
     }
-    return {
-        "category": "section 1",
-        "id": id,
-        "items": [
-            {
-                "id": 0,
-                "thumbnailUrl": img0
-            },
-            {
-                "id": 1,
-                "thumbnailUrl": img1
-            },
-            {
-                "id": 2,
-                "thumbnailUrl": img2
-            }
-        ]
+
+}
+
+/**
+ * sends the get request 
+ * return json response
+ */
+async function getRequest(url) {
+    try {
+        const response = await fetch(url);
+        if (response.ok && response.status === 200) {
+            return await response.json();
+        }
+        else {
+            return Promise.reject("failed to fetch " + url);
+        }
+    } catch (error) {
+        return Promise.reject("failed to fetch " + url);
     }
+}
+
+export async function getContent() {
+    return getRequest("http://localhost:8000/streaming_app/api/content/")
+}
+
+export async function getCategoryData(id) {
+    return getRequest(`http://localhost:8000/streaming_app/api/category/${id}/`);
 }
 
 export async function getMediaData(id) {
-    try {
-        const response = await fetch(`http://localhost:8000/streaming_app/media/${id}`);
-        if (response.ok && response.status === 200) {
-            let mediaData = await response.json();
-            return mediaData;
-        }
-    } catch (error) {
-
-    }
-
-    return {
-        "type": "movie",
-        "url": forest,
-        "title": "Forrest Gump"
-    };
+    return getRequest(`http://localhost:8000/streaming_app/api/media/${id}/`);
 }
 
 export async function getWatchlistData() {
-    try {
-        const response = await fetch(`http://localhost:8000/streaming_app/watchlist/`);
-        if (response.ok && response.status === 200) {
-            let mediaData = await response.json();
-            return mediaData;
-        }
-    } catch (error) {
-
-    }
-
-    return {
-        "success": true,
-        "favorites": [
-        {
-            "id": 0,
-            "thumbnailUrl": img0
-        },
-        {
-            "id": 1,
-            "thumbnailUrl": img1
-        },
-        {
-            "id": 2,
-            "thumbnailUrl": img2
-        }
-    ]}
+    return getRequest(`http://localhost:8000/streaming_app/api/watchlist/`);
 }
 
 export async function postLogin(username, password) {
-    const csrftoken = getCookie('csrftoken');
-
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
-
-    const response = await fetch("http://localhost:8000/streaming_app/login/", {
-        method: "POST",
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        body: formData
-    });
-    const data = await response.json(); 
-    return data;
+    let data = {"username": username, "password": password};
+    return postRequest("http://localhost:8000/streaming_app/api/login/", data);
 }
 
 export async function postRegister(username, password) {
-    const csrftoken = getCookie('csrftoken');
-
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
-
-    const response = await fetch("http://localhost:8000/streaming_app/register/", {
-        method: "POST",
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        body: formData
-    });
-    const data = await response.json(); 
-    return data;
+    let data = {"username": username, "password": password};
+    return postRequest("http://localhost:8000/streaming_app/api/register/", data);
 }
 
 export async function postLogout() {
-    const csrftoken = getCookie('csrftoken');
-
-    const formData = new FormData();
-
-    const response = await fetch("http://localhost:8000/streaming_app/logout/", {
-        method: "POST",
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        body: formData
-    });
-    const data = await response.json(); 
-    return data;
+    let data = {};
+    return postRequest("http://localhost:8000/streaming_app/api/logout/", data);
 }
 
 export async function postFavorite(id) {
-    const csrftoken = getCookie('csrftoken');
-
-    const formData = new FormData();
-    formData.append("id", id);
-
-    const response = await fetch("http://localhost:8000/streaming_app/favorite/", {
-        method: "POST",
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        body: formData
-    });
-    const data = await response.json(); 
-    return data;
+    let data = {"id": id};
+    return postRequest("http://localhost:8000/streaming_app/api/favorite/", data);
 }
 
 
 export async function getEpisodeData(id) {
-    try {
-        const response = await fetch(`http://localhost:8000/streaming_app/episode/${id}`);
-        if (response.ok && response.status === 200) {
-            let episodeData = await response.json();
-            return episodeData;
-        }
-    } catch (error) {
-
-    }
-
-    return {
-        "number": 0,
-        "title": "episode",
-        "url": {forest}
-    }
+    return getRequest(`http://localhost:8000/streaming_app/api/episode/${id}/`)
 }

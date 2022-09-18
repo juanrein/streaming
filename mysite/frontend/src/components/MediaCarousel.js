@@ -8,15 +8,18 @@ function MediaCarousel(props) {
     const handleFavButtonClick = (e, id) => {
         e.preventDefault();
 
-        let {success} = postFavorite(id);
-        console.log(success);
+        postFavorite(id)
+        .then(res => {
+            console.log("added to favorite");
+        })
+        .catch(e => console.error(e));
 
     }
 
     let carousel_items = props.carouselData.map((c) => {
         return (
             <div key = {c.id} className="carousel-item">
-                <Link to={`/streaming_app/media/${c.id}`}>
+                <Link to={`/media/${c.id}`}>
                     <img src={c.thumbnailUrl} />
                 </Link>
                 <a 
@@ -33,7 +36,7 @@ function MediaCarousel(props) {
         <div className="carousel-container">
             <div className="carousel-header">
                 <h2>{props.headerText}</h2>
-                <Link to={`/streaming_app/category/${props.carouselId}`}>See all</Link>
+                <Link to={`/category/${props.carouselId}`}>See all</Link>
             </div>
             <Carousel
                 showStatus={false}

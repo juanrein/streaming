@@ -28,7 +28,7 @@ function Media(props) {
         let episodes = season.episodes.map(c =>
             <div key={c.id} className="media-container">
                 <h2>{c.title}</h2>
-                <Link to={`/streaming_app/episode/${c.id}`}>
+                <Link to={`/episode/${c.id}`}>
                     <img src={c.thumbnailUrl} />
                 </Link>
             </div>

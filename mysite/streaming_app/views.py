@@ -90,7 +90,7 @@ def episode(request, episode_id):
         "url": e.content.url
     })
 
-def login(request):
+def loginRoute(request):
     username = request.POST["username"]
     password = request.POST["password"]
     user = authenticate(request, username = username, password = password)
@@ -100,7 +100,7 @@ def login(request):
     else:
         return JsonResponse({"success": False})
     
-def logout(request):
+def logoutRoute(request):
     logout(request)
     return JsonResponse({"success": True})
 
