@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { postLogin, postRegister, postLogout } from "../api_requests";
+import { postLogin, postRegister, postLogout, getUserInfo } from "../api_requests";
 import "./Header.css";
 
 function Header(props) {
@@ -11,6 +11,21 @@ function Header(props) {
     let [username, setUsername] = useState("");
     let [password, setPassword] = useState("");
     let [isProfileOpen, setIsProfileOpen] = useState(false);
+    let [profileName, setProfileName] = useState("");
+
+    useEffect(() => {
+        console.log("useeffect start")
+        getUserInfo()
+            .then(userData => {
+                console.log("getuserinfo success");
+                setLoggedIn(true);
+                setProfileName(userData["username"]);
+            })
+            .catch(e => {
+                console.log("getuserinfo failed", e);
+                setProfileName("");
+            });
+    }, []);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -19,27 +34,24 @@ function Header(props) {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log("handle login");
         setIsLoginOpen(true);
         setIsRegisterOpen(false);
     }
 
     const handleRegister = (e) => {
         e.preventDefault();
-        console.log("handle Register");
         setIsRegisterOpen(true);
         setIsLoginOpen(false);
     }
 
     const handleLogout = (e) => {
         e.preventDefault();
-        console.log("handle logout");
         postLogout()
-        .then(res => {
-            console.log(res);
-            setLoggedIn(false);
-        })
-        .catch(e => console.error(e));
+            .then(res => {
+                setLoggedIn(false);
+                setProfileName("");
+            })
+            .catch(e => console.error(e));
     }
 
     /**
@@ -47,44 +59,38 @@ function Header(props) {
      */
     const handleLoginFormSubmit = (e) => {
         e.preventDefault();
-        
+
         postLogin(username, password)
-        .then(res => {
-            setIsLoginOpen(false);
-            setIsRegisterOpen(false);
-            setIsProfileOpen(true);
-            setLoggedIn(true);
-        })
-        .catch(e => {
-            console.log("login failed");
-        })
+            .then(res => {
+                setIsLoginOpen(false);
+                setIsRegisterOpen(false);
+                setIsProfileOpen(true);
+                setLoggedIn(true);
+                console.log("postlogin success")
+            })
+            .catch(e => {
+                console.error(e);
+            })
     }
 
     const handleRegisterFormSubmit = (e) => {
         e.preventDefault();
 
         postRegister(username, password)
-        .then(res => {
-            setIsLoginOpen(false);
-            setIsRegisterOpen(false);
-            setIsProfileOpen(true);
-            setLoggedIn(true);
-        })
-        .catch(e => {
-            console.log("registration failed");
-        })
+            .then(res => {
+                setIsLoginOpen(false);
+                setIsRegisterOpen(false);
+                setIsProfileOpen(true);
+                setLoggedIn(true);
+                console.log("register success")
+            })
+            .catch(e => {
+                console.error(e);
+            })
     }
 
-    let userElement;
-    if (loggedIn) {
-        userElement = (
-            <div className="user">
-                <div>Username</div>
-                <div onClick={handleLogout} className="logout"><a href="">Logout</a></div>
-            </div>
-        )
-    }
-    else {
+    let userElement = "";
+    if (!loggedIn) {
         userElement = (
             <div className="buttons">
                 <div onClick={handleLogin} className="login"><a href="">Login</a></div>
@@ -92,6 +98,7 @@ function Header(props) {
             </div>
         )
     }
+
     return (
         <header>
             <nav>
@@ -128,18 +135,25 @@ function Header(props) {
                     </form>
                 )}
                 {loggedIn && !isProfileOpen && (
-                    <div className="profile-container">
+                    <div>
                         <div className="profile-icon" onClick={e => {
                             setIsProfileOpen(true)
                         }}></div>
                     </div>
                 )}
                 {loggedIn && isProfileOpen && (
-                    <div className="profile-container">
+                    <div className="profile-container-open">
                         <div className="profile-icon" onClick={e => {
-                            isProfileOpen(true)
+                            setIsProfileOpen(!isProfileOpen);
                         }}></div>
-                        <Link to="/watchlist">Show watchlist</Link>
+                        <div className="user">
+                            <div>{profileName}</div>
+                        </div>
+                        <div>
+                            <Link to="/watchlist">Show watchlist</Link>
+                        </div>
+                        <div onClick={handleLogout} className="logout"><a href="">Logout</a></div>
+
                     </div>
                 )}
             </nav>

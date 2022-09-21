@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData, Link } from "react-router-dom";
-import { getMediaData } from "../api_requests";
+import { deleteFavorite, getMediaData, postFavorite } from "../api_requests";
 import Header from "../components/Header";
 
 import "./Media.css";
 
-export async function loader({request}) {
+export async function loader({ request }) {
     const url = new URL(request.url);
     const id = url.searchParams.get("id");
     return getMediaData(id);
@@ -13,14 +13,57 @@ export async function loader({request}) {
 
 function Media(props) {
     const mediaData = useLoaderData();
+
+    let [isFavorite, setIsFavorite] = useState(mediaData.isFavorite);
+
+    function handleFavorite(e) {
+        postFavorite(mediaData.id)
+        .then(res => {
+            setIsFavorite(true);
+        })
+        .catch(e => {
+
+        });
+    }
+    function handleRemoveFavorite(e) {
+        deleteFavorite(mediaData.id)
+        .then(res => {
+            setIsFavorite(false);
+        })
+        .catch(e => {
+            
+        })
+    }
+    let favoriteElement;
+    if (isFavorite) {
+        favoriteElement = (<button
+            className="watchlist-button-selected"
+            onClick={handleRemoveFavorite}
+        >
+            Remove from watchlist
+        </button>);
+    }
+    else {
+        favoriteElement = (<button
+            className="watchlist-button"
+            onClick={handleFavorite}
+        >
+            Add to watchlist
+        </button>);
+    }
+
     if (mediaData.type === "movie") {
         return (
             <div>
                 <Header />
-                <h1>{mediaData.title}</h1>
-                <video width={320} height={240} controls>
-                    <source src={mediaData.url} />
-                </video>
+                <div className="movie-container">
+                    <h1>{mediaData.title}</h1>
+                    {favoriteElement}
+
+                    <video width={320} height={240} controls>
+                        <source src={mediaData.url} />
+                    </video>
+                </div>
             </div>
         )
     }
@@ -44,8 +87,14 @@ function Media(props) {
     return (
         <div>
             <Header />
-            <h1>{mediaData.title}</h1>
-            {seasons}
+
+            <div className="show-container">
+                {favoriteElement}
+
+                <h1>{mediaData.title}</h1>
+                {seasons}
+            </div>
+
         </div>
     )
 

@@ -45,22 +45,32 @@ async function postRequest(url, data) {
             body: formData
         });
         if (response.ok && response.status === 200) {
-            return await response.json();
+            let contentType = response.headers.get("Content-Type");
+            if (contentType.includes("text/html")) {
+                return await response.text();
+            }
+            else if (contentType.includes("application/json")) {
+                return await response.json();
+            }
+            else {
+                console.error("unknown content-type " + response.headers.get("Content-Type"))
+            }
         }
         else {
+            let errorText = await response.text();
             throw new ApiError({
-                "message": "failed to load page content " + url,
+                "message": errorText,
                 "statusCode": response.status,
                 "statusText": response.statusText,
             })
-            // return Promise.reject("failed to fetch " + url);
         }
     } catch (error) {
         throw error;
-        // return Promise.reject("failed to fetch " + url);
     }
 
 }
+
+
 
 /**
  * sends the get request 
@@ -70,13 +80,65 @@ async function getRequest(url) {
     try {
         const response = await fetch(url);
         if (response.ok && response.status === 200) {
-            return await response.json();
+            let contentType = response.headers.get("Content-Type");
+            if (contentType.includes("text/html")) {
+                return await response.text();
+            }
+            else if (contentType.includes("application/json")) {
+                return await response.json();
+            }
+            else {
+                console.error("unknown content-type " + response.headers.get("Content-Type"))
+            }
         }
         else {
-            return Promise.reject("failed to fetch " + url);
+            let errorMessage = await response.text();
+            throw new ApiError({
+                "message": errorMessage,
+                "statusCode": response.status,
+                "statusText": response.statusText,
+            })
         }
     } catch (error) {
-        return Promise.reject("failed to fetch " + url);
+        throw error;
+    }
+}
+
+/**
+ * sends the get request 
+ * return json response
+ */
+export async function deleteRequest(url) {
+    const csrftoken = getCookie('csrftoken');
+    try {
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                'X-CSRFToken': csrftoken
+            }
+        });
+        if (response.ok && response.status === 200) {
+            let contentType = response.headers.get("Content-Type");
+            if (contentType.includes("text/html")) {
+                return await response.text();
+            }
+            else if (contentType.includes("application/json")) {
+                return await response.json();
+            }
+            else {
+                console.error("unknown content-type " + response.headers.get("Content-Type"))
+            }
+        }
+        else {
+            let errorMessage = await response.text();
+            throw new ApiError({
+                "message": errorMessage,
+                "statusCode": response.status,
+                "statusText": response.statusText,
+            })
+        }
+    } catch (error) {
+        throw error;
     }
 }
 
@@ -116,7 +178,15 @@ export async function postFavorite(id) {
     return postRequest("http://localhost:8000/streaming_app/api/favorite/", data);
 }
 
+export async function deleteFavorite(id) {
+    return deleteRequest(`http://localhost:8000/streaming_app/api/delete_favorite/${id}/`)
+}
+
 
 export async function getEpisodeData(id) {
     return getRequest(`http://localhost:8000/streaming_app/api/episode/${id}/`)
+}
+
+export async function getUserInfo() {
+    return getRequest("http://localhost:8000/streaming_app/api/userinfo/")
 }

@@ -19,5 +19,7 @@ urlpatterns = [
     path("api/logout/", views.logoutRoute, name="logout"),
     path("api/register/", views.register, name="register"),
     path("api/favorite/", views.favorite, name="favorite"),
-    path("api/watchlist/", views.watchlist, name="watchlist")
+    path("api/delete_favorite/<int:media_id>/", views.delete_favorite, name="delete_favorite"),
+    path("api/watchlist/", views.watchlist, name="watchlist"),
+    path("api/userinfo/", views.userInfo, name="userinfo")
 ]

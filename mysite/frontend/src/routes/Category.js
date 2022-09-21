@@ -14,11 +14,6 @@ export async function loader({request}) {
 function Category(props) {
     const data = useLoaderData();
     
-    const handleFavButtonClick = (e, id) => {
-        e.preventDefault();
-        console.log("add to favourites", id);
-    }
-
     return (
         <div id="category-container">
             <Header />
@@ -28,12 +23,7 @@ function Category(props) {
                     <Link to={`/media?id=${c.id}`}>
                         <img src={c.thumbnailUrl} />
                     </Link>
-                    <a
-                        href="/"
-                        className="fav-button"
-                        onClick={e => handleFavButtonClick(e, c.id)}
-                    >
-                    </a>
+                   
                 </div>)}
             </div>
         </div>

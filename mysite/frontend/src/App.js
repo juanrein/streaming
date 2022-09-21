@@ -45,8 +45,8 @@ class App extends React.Component {
             ))
         }
         let errors = "";
-        if (!this.state.isLoaded) {
-            errors = <div className="error-message">{this.state.error}</div>
+        if (!this.state.isLoaded && this.state.error) {
+            errors = <div className="error-message">{this.state.error.message}</div>
         }
 
         return (
