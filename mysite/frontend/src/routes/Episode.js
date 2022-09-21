@@ -5,8 +5,9 @@ import Header from "../components/Header";
 
 import "./Episode.css";
 
-export async function loader({params}) {
-    let id = params.episode_id;
+export async function loader({request}) {
+    const url = new URL(request.url);
+    const id = url.searchParams.get("id");
     return getEpisodeData(id);
 }
 

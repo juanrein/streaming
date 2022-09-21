@@ -2,8 +2,8 @@ import { Link, useLoaderData } from "react-router-dom";
 import { getWatchlistData } from "../api_requests";
 import Header from "../components/Header";
 
-export async function loader({ params }) {
-    return getWatchlistData()
+export async function loader() {
+    return getWatchlistData();
 }
 
 export default function Watchlist(props) {
@@ -19,7 +19,7 @@ export default function Watchlist(props) {
             <h1>Watchlist</h1>
             {data.favorites.map(c =>
                 <div key={c.id} className="media-container">
-                    <Link to={`/media/${c.id}`}>
+                    <Link to={`/media?id=${c.id}`}>
                         <img src={c.thumbnailUrl} />
                     </Link>
                     <a

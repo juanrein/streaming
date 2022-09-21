@@ -6,6 +6,11 @@ app_name = "streaming_app"
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("category", views.index),
+    path("media", views.index),
+    path("episode", views.index),
+    path("watchlist/", views.index),
+
     path("api/content/", views.content, name="content"),
     path("api/category/<int:category_id>/", views.category, name="category"),
     path("api/media/<int:media_id>/", views.media, name="media"),

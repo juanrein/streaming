@@ -5,9 +5,9 @@ import "./Category.css"
 import Header from "../components/Header";
 import { getCategoryData } from "../api_requests";
 
-export async function loader({ params }) {
-    let id = params.category_id;
-
+export async function loader({request}) {
+    const url = new URL(request.url);
+    const id = url.searchParams.get("id");
     return getCategoryData(id);
 }
 
@@ -25,7 +25,7 @@ function Category(props) {
             <h1>{data.category}</h1>
             <div>
                 {data.items.map(c => <div key={c.id} className="media-container">
-                    <Link to={`/media/${c.id}`}>
+                    <Link to={`/media?id=${c.id}`}>
                         <img src={c.thumbnailUrl} />
                     </Link>
                     <a

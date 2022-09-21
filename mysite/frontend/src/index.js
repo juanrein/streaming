@@ -20,19 +20,19 @@ const routes = [
         errorElement: <ErrorPage />,
     },
     {
-        path: "category/:category_id/",
+        path: "category",
         element: <Category />,
         loader: categoryLoader,
         errorElement: <ErrorPage />,
     },
     {
-        path: "media/:media_id/",
+        path: "media",
         element: <Media />,
         loader: mediaLoader,
         errorElement: <ErrorPage />,
     },
     {
-        path: "episode/:episode_id/",
+        path: "episode",
         element: <Episode />,
         loader: episodeLoader,
         errorElement: <ErrorPage />,
@@ -44,6 +44,9 @@ const routes = [
         errorElement: <ErrorPage />,
     }
 ]
+
+
+
 //appends /streaming_app/ to route names in <Link to="...">
 const router = createBrowserRouter(routes,  {basename: "/streaming_app/"});
 

@@ -1,3 +1,10 @@
+export class ApiError extends Error {
+    constructor(data) {
+        super();
+        this.data = data;
+    }
+}
+
 
 /**
  * https://docs.djangoproject.com/en/4.1/howto/csrf/
@@ -41,10 +48,16 @@ async function postRequest(url, data) {
             return await response.json();
         }
         else {
-            return Promise.reject("failed to fetch " + url);
+            throw new ApiError({
+                "message": "failed to load page content " + url,
+                "statusCode": response.status,
+                "statusText": response.statusText,
+            })
+            // return Promise.reject("failed to fetch " + url);
         }
     } catch (error) {
-        return Promise.reject("failed to fetch " + url);
+        throw error;
+        // return Promise.reject("failed to fetch " + url);
     }
 
 }

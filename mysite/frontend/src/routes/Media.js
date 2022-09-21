@@ -5,8 +5,9 @@ import Header from "../components/Header";
 
 import "./Media.css";
 
-export async function loader({ params }) {
-    let id = params.media_id;
+export async function loader({request}) {
+    const url = new URL(request.url);
+    const id = url.searchParams.get("id");
     return getMediaData(id);
 }
 
@@ -28,7 +29,7 @@ function Media(props) {
         let episodes = season.episodes.map(c =>
             <div key={c.id} className="media-container">
                 <h2>{c.title}</h2>
-                <Link to={`/episode/${c.id}`}>
+                <Link to={`/episode?id=${c.id}`}>
                     <img src={c.thumbnailUrl} />
                 </Link>
             </div>
