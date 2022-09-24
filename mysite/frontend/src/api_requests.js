@@ -5,6 +5,8 @@ export class ApiError extends Error {
     }
 }
 
+const BASE_URL = "http://localhost:8000"
+
 
 /**
  * https://docs.djangoproject.com/en/4.1/howto/csrf/
@@ -143,50 +145,50 @@ export async function deleteRequest(url) {
 }
 
 export async function getContent() {
-    return getRequest("http://localhost:8000/streaming_app/api/content/")
+    return getRequest(`${BASE_URL}/streaming_app/api/content/`)
 }
 
 export async function getCategoryData(id) {
-    return getRequest(`http://localhost:8000/streaming_app/api/category/${id}/`);
+    return getRequest(`${BASE_URL}/streaming_app/api/category/${id}/`);
 }
 
 export async function getMediaData(id) {
-    return getRequest(`http://localhost:8000/streaming_app/api/media/${id}/`);
+    return getRequest(`${BASE_URL}/streaming_app/api/media/${id}/`);
 }
 
 export async function getWatchlistData() {
-    return getRequest(`http://localhost:8000/streaming_app/api/watchlist/`);
+    return getRequest(`${BASE_URL}/streaming_app/api/watchlist/`);
 }
 
 export async function postLogin(username, password) {
     let data = {"username": username, "password": password};
-    return postRequest("http://localhost:8000/streaming_app/api/login/", data);
+    return postRequest(`${BASE_URL}/streaming_app/api/login/`, data);
 }
 
 export async function postRegister(username, password) {
     let data = {"username": username, "password": password};
-    return postRequest("http://localhost:8000/streaming_app/api/register/", data);
+    return postRequest(`${BASE_URL}/streaming_app/api/register/`, data);
 }
 
 export async function postLogout() {
     let data = {};
-    return postRequest("http://localhost:8000/streaming_app/api/logout/", data);
+    return postRequest(`${BASE_URL}/streaming_app/api/logout/`, data);
 }
 
 export async function postFavorite(id) {
     let data = {"id": id};
-    return postRequest("http://localhost:8000/streaming_app/api/favorite/", data);
+    return postRequest(`${BASE_URL}/streaming_app/api/favorite/`, data);
 }
 
 export async function deleteFavorite(id) {
-    return deleteRequest(`http://localhost:8000/streaming_app/api/delete_favorite/${id}/`)
+    return deleteRequest(`${BASE_URL}/streaming_app/api/delete_favorite/${id}/`)
 }
 
 
 export async function getEpisodeData(id) {
-    return getRequest(`http://localhost:8000/streaming_app/api/episode/${id}/`)
+    return getRequest(`${BASE_URL}/streaming_app/api/episode/${id}/`)
 }
 
 export async function getUserInfo() {
-    return getRequest("http://localhost:8000/streaming_app/api/userinfo/")
+    return getRequest(`${BASE_URL}/streaming_app/api/userinfo/`)
 }

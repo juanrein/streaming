@@ -22,6 +22,7 @@ class App extends React.Component {
                     isLoaded: true,
                     data: data
                 });
+                console.log(data)
             })
             .catch(e => {
                 this.setState({
@@ -34,7 +35,7 @@ class App extends React.Component {
 
     render() {
         let carousels;
-        if (this.state.isLoaded) {
+        if (this.state.isLoaded && !this.state.error) {
             carousels = this.state.data.sections.map(sectionData => (
                 <MediaCarousel
                     key={sectionData.id}

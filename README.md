@@ -12,9 +12,9 @@
 
     https://docs.python.org/3/library/venv.html
 
-    2. install django
+    2. install python dependencies from requirements.txt
 
-    https://docs.djangoproject.com/en/4.1/topics/install/#installing-official-release
+    pip install -r requirements.txt
     
     3. create mysite/secret.json with secret key for django
 
@@ -22,27 +22,23 @@
         "secret_key": "your_secret_key"
     }
 
-    4. install Pillow
-
-    https://pillow.readthedocs.io/en/stable/installation.html
-
-    5. do database migrations
+    4. do database migrations
 
     python .\manage.py migrate
 
-    6. create superuser
+    5. create superuser
 
     python .\manage.py createsuperuser
 
-    7. start development server
+    6. start development server
 
     python .\manage.py runserver
 
-    8. login as admin and create content to site
+    7. login as admin and create content to site
 
     http://localhost:8000/admin/
 
-    9. access site
+    8. access site
 
     http://localhost:8000/streaming_app/
 
@@ -58,6 +54,8 @@
     2. run development server
 
         npm start
+
+        http://localhost:3000/streaming_app/
 
     3. build
 
