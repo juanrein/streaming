@@ -55,7 +55,8 @@ def category(request, category_id):
     for m in media:
         data.append({
             "id": m.id,
-            "thumbnailUrl": toAbsolute(m.thumbnail.url)
+            "thumbnailUrl": toAbsolute(m.thumbnail.url),
+            "title": m.title
         })
 
     return JsonResponse({
@@ -224,3 +225,22 @@ def userInfo(request):
         return JsonResponse({"username": request.user.username})
 
     return Http401("Not logged in")
+
+@require_GET
+def search(request):
+    if "search" not in request.GET or len(request.GET["search"]) < 2:
+        return HttpResponseBadRequest("Enter search string of length 2 or longer")
+
+    searchString = request.GET["search"]
+
+    matches = Media.objects.filter(title__icontains=searchString)
+    # matches = Media.objects.all()
+
+    results = []
+    for match in matches:
+        results.append({
+            "title": match.title,
+            "id": match.id
+        })
+
+    return JsonResponse({"results": results})

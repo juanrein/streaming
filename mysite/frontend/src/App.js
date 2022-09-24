@@ -2,8 +2,10 @@ import React from "react"
 import { getContent } from "./api_requests";
 
 import './App.css';
+
 import Header from "./components/Header";
 import MediaCarousel from "./components/MediaCarousel";
+
 
 class App extends React.Component {
     constructor(props) {
@@ -22,7 +24,6 @@ class App extends React.Component {
                     isLoaded: true,
                     data: data
                 });
-                console.log(data)
             })
             .catch(e => {
                 this.setState({

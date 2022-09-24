@@ -192,3 +192,7 @@ export async function getEpisodeData(id) {
 export async function getUserInfo() {
     return getRequest(`${BASE_URL}/streaming_app/api/userinfo/`)
 }
+
+export async function getSearchResults(searchString) {
+    return getRequest(`${BASE_URL}/streaming_app/api/search?search=${searchString}`)
+}

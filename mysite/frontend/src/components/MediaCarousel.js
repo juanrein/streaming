@@ -1,6 +1,6 @@
 import {Carousel} from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"
-import "./MediaCarousel.css"
+import "../App.css"
 import { Link } from "react-router-dom";
 
 function MediaCarousel(props) {
@@ -18,7 +18,7 @@ function MediaCarousel(props) {
         <div className="carousel-container">
             <div className="carousel-header">
                 <h2>{props.headerText}</h2>
-                <Link to={`/category?id=${props.carouselId}`}>See all</Link>
+                <Link className="see-all-link" to={`/category?id=${props.carouselId}`}>See all</Link>
             </div>
             <Carousel
                 showStatus={false}

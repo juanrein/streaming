@@ -21,5 +21,6 @@ urlpatterns = [
     path("api/favorite/", views.favorite, name="favorite"),
     path("api/delete_favorite/<int:media_id>/", views.delete_favorite, name="delete_favorite"),
     path("api/watchlist/", views.watchlist, name="watchlist"),
-    path("api/userinfo/", views.userInfo, name="userinfo")
+    path("api/userinfo/", views.userInfo, name="userinfo"),
+    path("api/search/", views.search, name="search"),
 ]

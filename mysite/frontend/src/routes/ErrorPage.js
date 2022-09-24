@@ -1,7 +1,7 @@
 import { useRouteError } from "react-router-dom";
 import { ApiError } from "../api_requests";
 import Header from "../components/Header";
-import "./ErrorPage.css";
+import "../App.css";
 
 export default function ErrorPage() {
     const error = useRouteError();
@@ -10,14 +10,14 @@ export default function ErrorPage() {
     if (error instanceof ApiError) {
         console.error("erropage, apierror: ", error.data);
 
-        let {message, statusCode, statusText} = error.data
-        errorElement = 
-        <div>
-            <p>error message: {message}</p>
-            <p>status code: {statusCode}</p>
-            <p>status text: {statusText}</p>
+        let { message, statusCode, statusText } = error.data
+        errorElement =
+            <div>
+                <p>error message: {message}</p>
+                <p>status code: {statusCode}</p>
+                <p>status text: {statusText}</p>
 
-        </div>
+            </div>
     }
     else {
         console.error("network error: ", error);
@@ -26,10 +26,13 @@ export default function ErrorPage() {
     return (
         <div id="error-page">
             <Header />
-            <div id="error-content">
-                <h1>Error occured</h1>
-                {errorElement}
-            </div>
+            <main>
+                <div id="error-content">
+                    <h1>Error occured</h1>
+                    {errorElement}
+                </div>
+            </main>
+
         </div>
     )
 }

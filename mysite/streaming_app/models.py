@@ -40,7 +40,7 @@ class Episode(models.Model):
     thumbnail = models.ImageField(upload_to="thumbnail/")
 
     def __str__(self):
-        return f"Episode {self.number}"
+        return f"Season {self.season.number} Episode {self.number}"
 
 class Movie(models.Model):
     content = models.FileField(upload_to="video/movies/")

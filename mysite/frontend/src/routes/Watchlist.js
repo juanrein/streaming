@@ -1,8 +1,9 @@
-import { Link, useLoaderData, useRevalidator } from "react-router-dom";
+import { useLoaderData, useRevalidator } from "react-router-dom";
 import { deleteFavorite, getWatchlistData } from "../api_requests";
 import Header from "../components/Header";
 
-import "./Watchlist.css";
+import "../App.css";
+import MediaCard from "./MediaCard";
 
 export async function loader() {
     return getWatchlistData();
@@ -23,24 +24,27 @@ export default function Watchlist(props) {
     return (
         <div>
             <Header />
-            <div className="watchlist-media-container">
+            <main className="watchlist-media-container">
                 <h1>Watchlist</h1>
                 <div className="watchlist-items">
                     {data.favorites.map(c =>
-                        <div key={c.id} className="watchlist-item">
-                            <Link to={`/media?id=${c.id}`}>
-                                <img src={c.thumbnailUrl} />
-                            </Link>
-                            <p>{c.title}</p>
+                        <MediaCard
+                            id={c.id}
+                            title={c.title}
+                            linkUrl={`/media?id=${c.id}`}
+                            thumbnailUrl={c.thumbnailUrl} 
+                        >
                             <button
                                 className="watchlist-button-selected"
                                 onClick={e => handleRemove(c.id)}
                             >
                                 Remove from watchlist
                             </button>
-                        </div>)}
+                        </MediaCard>
+
+                        )}
                 </div>
-            </div>
+            </main>
 
 
         </div>

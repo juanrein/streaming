@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { deleteFavorite, getMediaData, postFavorite } from "../api_requests";
-import Header from "../components/Header";
 
-import "./Media.css";
+import "../App.css";
+import Movie from "./Movie";
+import Show from "./Show";
 
 export async function loader({ request }) {
     const url = new URL(request.url);
@@ -18,21 +19,21 @@ function Media(props) {
 
     function handleFavorite(e) {
         postFavorite(mediaData.id)
-        .then(res => {
-            setIsFavorite(true);
-        })
-        .catch(e => {
+            .then(res => {
+                setIsFavorite(true);
+            })
+            .catch(e => {
 
-        });
+            });
     }
     function handleRemoveFavorite(e) {
         deleteFavorite(mediaData.id)
-        .then(res => {
-            setIsFavorite(false);
-        })
-        .catch(e => {
-            
-        })
+            .then(res => {
+                setIsFavorite(false);
+            })
+            .catch(e => {
+
+            })
     }
     let favoriteElement;
     if (isFavorite) {
@@ -53,50 +54,17 @@ function Media(props) {
     }
 
     if (mediaData.type === "movie") {
-        return (
-            <div>
-                <Header />
-                <div className="movie-container">
-                    <h1>{mediaData.title}</h1>
-                    {favoriteElement}
-
-                    <video width={320} height={240} controls>
-                        <source src={mediaData.url} />
-                    </video>
-                </div>
-            </div>
-        )
+        return <Movie
+            title={mediaData.title}
+            favoriteElement={favoriteElement}
+            url={mediaData.url}
+        />
     }
 
-    let seasons = mediaData.seasons.map(season => {
-        let episodes = season.episodes.map(c =>
-            <div key={c.id} className="media-container">
-                <h2>{c.title}</h2>
-                <Link to={`/episode?id=${c.id}`}>
-                    <img src={c.thumbnailUrl} />
-                </Link>
-            </div>
-        )
-        return (
-            <div>
-                <h1>{season.title}</h1>
-                <div>{episodes}</div>
-            </div>
-        )
-    })
-    return (
-        <div>
-            <Header />
-
-            <div className="show-container">
-                {favoriteElement}
-
-                <h1>{mediaData.title}</h1>
-                {seasons}
-            </div>
-
-        </div>
-    )
+    return <Show
+        title={mediaData.title}
+        favoriteElement={favoriteElement}
+        seasons={mediaData.seasons} />
 
 }
 
