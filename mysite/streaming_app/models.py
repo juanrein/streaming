@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+
 class Category(models.Model):
     name = models.CharField(max_length=200)
 
@@ -43,6 +45,9 @@ class Episode(models.Model):
 class Movie(models.Model):
     content = models.FileField(upload_to="video/movies/")
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Movie file {self.media.title}"
 
 class Favorite(models.Model):
     media = models.ForeignKey(Media, on_delete=models.CASCADE)

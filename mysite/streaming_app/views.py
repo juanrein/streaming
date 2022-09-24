@@ -1,4 +1,3 @@
-import http
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from .models import Episode, Favorite, Media, Category, Movie, Season
@@ -7,6 +6,11 @@ from django.contrib.auth.models import User
 from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 # Create your views here.
+
+
+def toAbsolute(url):
+    root = "http://localhost:8000"
+    return root + url
 
 class Http401(HttpResponse):
     """
@@ -30,7 +34,7 @@ def content(request):
         for m in media:
             items.append({
                 "id": m.id,
-                "thumbnailUrl": m.thumbnail.url
+                "thumbnailUrl": toAbsolute(m.thumbnail.url)
             })
         data.append({
             "title": category.name,
@@ -51,7 +55,7 @@ def category(request, category_id):
     for m in media:
         data.append({
             "id": m.id,
-            "thumbnailUrl": m.thumbnail.url
+            "thumbnailUrl": toAbsolute(m.thumbnail.url)
         })
 
     return JsonResponse({
@@ -79,7 +83,7 @@ def media(request, media_id):
     if m.type == Media.MOVIE:
         movie = Movie.objects.get(media=m)
         return JsonResponse({
-            "url": movie.content.url,
+            "url": toAbsolute(movie.content.url),
             "title": m.title,
             "type": "movie",
             "isFavorite": isInFavorites,
@@ -95,7 +99,7 @@ def media(request, media_id):
                 "number": episode.number,
                 "title": episode.title,
                 "id": episode.id,
-                "thumbnailUrl": episode.thumbnail.url
+                "thumbnailUrl": toAbsolute(episode.thumbnail.url)
             })
         seasons.append({
             "episodes": episodes,
@@ -118,7 +122,7 @@ def episode(request, episode_id):
     return JsonResponse({
         "number": e.number,
         "title": e.title,
-        "url": e.content.url
+        "url": toAbsolute(e.content.url)
     })
 
 @require_POST
@@ -207,7 +211,7 @@ def watchlist(request):
         for fav in favorites:
             items.append({
                 "title": fav.media.title,
-                "thumbnailUrl": fav.media.thumbnail.url,
+                "thumbnailUrl": toAbsolute(fav.media.thumbnail.url),
                 "id": fav.media.id
             })
         return JsonResponse({"favorites": items})
