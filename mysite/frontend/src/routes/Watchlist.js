@@ -24,9 +24,9 @@ export default function Watchlist(props) {
     return (
         <div>
             <Header />
-            <main className="watchlist-media-container">
-                <h1>Watchlist</h1>
-                <div className="watchlist-items">
+            <main>
+                <h1 className="watchlist-header">Watchlist</h1>
+                <div className="media-grid">
                     {data.favorites.map(c =>
                         <MediaCard
                             id={c.id}

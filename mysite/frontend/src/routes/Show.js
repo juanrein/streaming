@@ -13,15 +13,20 @@ export default function Show(props) {
                 linkUrl={`/episode?id=${c.id}`}
                 thumbnailUrl={c.thumbnailUrl} />
         )
-        return isOpen => (
+        
+
+        return isOpen => {
+            let arrow = isOpen ? <div className="symbol-open">&lt;</div> : <div className="symbol-closed">&gt;</div>;
+
+            return (
             <div>
                 <div className="season-header">
                     <h2>{season.title}</h2>
-                    {isOpen ? <div className="symbol">-</div> : <div className="symbol">+</div>}
+                    {arrow}
                 </div>
                 <div className="media-grid">{episodes}</div>
             </div>
-        )
+        )}
     });
 
     return (

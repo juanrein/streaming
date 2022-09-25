@@ -6,7 +6,7 @@ import Search from "./Search";
 import UserInfoForm from "./UserInfoForm";
 
 function Header(props) {
-    
+
     let [loggedIn, setLoggedIn] = useState(false);
 
 
@@ -24,7 +24,7 @@ function Header(props) {
             });
     }, []);
 
-    
+
 
     const handleLogout = (e) => {
         e.preventDefault();
@@ -79,18 +79,22 @@ function Header(props) {
 
     let profileElement = "";
     if (loggedIn && isProfileOpen) {
-        profileElement = <div className="profile-container-open">
-            <div className="profile-icon" onClick={e => {
-                setIsProfileOpen(!isProfileOpen);
-            }}></div>
-            <div className="user">
-                <div>{profileName}</div>
-            </div>
-            <div>
-                <Link className="show-watchlist-button" to="/watchlist">Show watchlist</Link>
-            </div>
-            <button onClick={handleLogout} className="auth-button logout">Logout</button>
+        profileElement = 
+        <div>
+            <div className="profile-icon-placeholder"></div>
+            <div className="profile-container-open">
+                <div className="profile-icon" onClick={e => {
+                    setIsProfileOpen(!isProfileOpen);
+                }}></div>
+                <div className="user">
+                    <div>{profileName}</div>
+                </div>
+                <div>
+                    <Link className="show-watchlist-button" to="/watchlist">Show watchlist</Link>
+                </div>
+                <button onClick={handleLogout} className="auth-button logout">Logout</button>
 
+            </div>
         </div>
     }
     else if (loggedIn && !isProfileOpen) {

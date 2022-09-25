@@ -8,7 +8,7 @@
     --color-nav: black;
     --color-highlight: rgb(35, 35, 218);
     --color-highlight-hover: rgb(109, 109, 226);
-
+    --color-secondary: rgb(230 230 230);
     --color-dark: black;
 }
 
@@ -23,6 +23,7 @@ h2,
 h3 {
     font-family: montserrat;
     font-weight: 800;
+    text-transform: capitalize;
 }
 
 main {
@@ -33,9 +34,6 @@ main {
     display: none;
 }
 
-.accordion-item-open .media-grid {}
-
-
 
 .error-message {
     padding: 1em;
@@ -45,6 +43,10 @@ main {
 
 #error-content {
     margin: 2em;
+}
+
+#category-container h1 {
+    margin: 1em;
 }
 
 
@@ -71,10 +73,6 @@ video {
     max-height: 80vh;
 }
 
-.show-container {}
-
-
-
 
 .season-header {
     display: flex;
@@ -83,16 +81,27 @@ video {
     padding: 0.5em;
     margin: 0.5em;
     align-items: center;
+    cursor: pointer;
+    background-color: var(--color-secondary);
 }
 
-.symbol {
+.symbol-open, .symbol-closed {
     font-size: 40px;
     font-weight: 1000;
+    font-family: monospace;
+    
 }
 
-.symbol:hover {
+.symbol-closed {
+    transform: rotate(-90deg);
+}
+
+.symbol-open {
+    transform: rotate(-90deg);
+}
+
+.symbol-closed:hover, .symbol-open:hover {
     cursor: pointer;
-    transform: scale(1.5) translate(-1px, -1px);
 }
 
 .media-grid {
@@ -102,7 +111,9 @@ video {
     gap: 1em;
 }
 
-.episode-container {}
+.watchlist-header {
+    margin-bottom: 1em;
+}
 
 .watchlist-button,
 .watchlist-button-selected {
@@ -122,12 +133,6 @@ video {
     background-color: var(--color-dark);
     color: white;
 }
-
-
-.watchlist-media-container {
-    margin: 1em;
-}
-
 
 
 .carousel-container {
@@ -162,6 +167,7 @@ video {
     align-items: center;
     border-bottom: 1px solid black;
     margin-bottom: 1em;
+    text-transform: capitalize;
 }
 
 .see-all-link {
@@ -173,7 +179,7 @@ video {
 }
 
 .see-all-link:hover {
-    font-size: 120%;
+    background-color: lightgray;
 }
 
 
@@ -204,14 +210,18 @@ nav {
 }
 
 .icon a {
-    border: 2px solid white;
     color: var(--color-highlight);
+    background-color: white;
     border-radius: 1em;
-    padding: 10px;
+    padding: 0.25em 0.5em 0.25em 0.5em;
     font-size: 30px;
     font-family: fantasy;
     text-decoration: none;
     display: block;
+}
+
+.icon a:hover {
+    color: var(--color-highlight-hover);
 }
 
 .show-watchlist-button {
@@ -300,6 +310,7 @@ nav {
     padding: 0.25em;
     background-color: aqua;
     font-weight: 600;
+    margin-bottom: 0.5em;
 }
 
 #search-submit {
@@ -328,13 +339,18 @@ nav {
 }
 
 .search-results {
-    position: absolute;
     background-color: white;
+    position: absolute;
+    box-shadow: 1px 1px 2px 2px grey;
 }
 
 .search-result {
     padding: 1em;
 } 
+
+.search-result a {
+    font-size: 150%;
+}
 
 
 .profile-container-open>* {
@@ -350,6 +366,11 @@ nav {
     cursor: pointer;
 }
 
+.profile-icon-placeholder {
+    width: 2em;
+    height: 2em;
+}
+
 .profile-container-open .profile-icon {
     background-color: black;
     align-self: flex-end;
@@ -360,6 +381,10 @@ nav {
 @media screen and (min-width: 600px) {
     .media-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    main {
+        margin: 2em;
     }
 }
 
