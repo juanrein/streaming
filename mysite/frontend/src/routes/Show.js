@@ -8,6 +8,7 @@ export default function Show(props) {
     let seasons = props.seasons.map(season => {
         let episodes = season.episodes.map(c =>
             <MediaCard
+                key={c.id}
                 id={c.id}
                 title={c.title}
                 linkUrl={`/episode?id=${c.id}`}
@@ -15,7 +16,7 @@ export default function Show(props) {
         )
         
 
-        return isOpen => {
+        return ({isOpen}) => {
             let arrow = isOpen ? <div className="symbol-open">&lt;</div> : <div className="symbol-closed">&gt;</div>;
 
             return (

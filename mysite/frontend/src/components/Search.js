@@ -17,7 +17,11 @@ export default function Search(props) {
     }
 
     let searchResults = results
-        .map(r => <div className="search-result">{r.title} <Link to={`/media?id=${r.id}`}>{r.title}</Link></div>);
+        .map(r => (
+            <div className="search-result">{r.title} 
+                <Link to={`/media?id=${r.id}`}>{r.title}</Link>
+            </div>)
+        );
     return (
         <div className="search-bar">
             <form onSubmit={handleSearch}>
@@ -28,7 +32,18 @@ export default function Search(props) {
                             setResults([]);
                         }
                     }}
-                    onBlur={e => setResults([])}
+                    onBlur={e => {
+                        //If clicked submit button or actual link in search results
+                        //then don't blur as it would cancel the link press
+                        if (e.relatedTarget === null || 
+                            (e.relatedTarget.tagName !== "A" &&
+                            e.relatedTarget.tagName !== "INPUT")) 
+                        {
+                            console.log(e.relatedTarget);
+                            setResults([]);
+                        }
+
+                    }}
                     value={searchText}
                     type="search"
                     name="search"

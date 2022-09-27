@@ -4,7 +4,7 @@ import "../App.css";
 
 /**
  * Accordion element
- * children: array of functions (isOpen: boolean) => Component
+ * children: array of functions ({isOpen: boolean}) => Component
  */
 export default function Accordion(props) {
     let [openISet, setOpenISet] = useState(new Set([0]));
@@ -16,6 +16,7 @@ export default function Accordion(props) {
         }
 
         return <div 
+                key={i}
                 className={className}
                 onClick={e => {
                     if (openISet.has(i)) {
